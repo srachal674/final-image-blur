@@ -7,16 +7,36 @@ class Image
 
   def output_image
     @image.each do |a|
-      puts a.join("")
+      puts a.join(" ")
     end
   end 
 
-  def blur
-    #puts "Blur starts"
-    blur = []
-    last_row_number = @image.length() -1
-    new_image = @image.clone
+  puts "Outputting Image"
+  def make_copy
+    puts "Outputting Image"
+    output = []
 
+    @image.each do |row|
+      row_copy = []
+
+      row.each do |cell|
+        row_copy.push(cell)
+      end
+      
+      output.push(row_copy)
+    end
+
+    return output
+  end
+
+  def blur 
+    #puts "Blur starts"
+    blur = [] 
+   
+    last_row_number = @image.length() -1
+   
+    new_image = make_copy()
+    
     @image.each_with_index do |row, row_number|
       #puts "#{row_number} #{row}"
     
@@ -32,7 +52,7 @@ class Image
           right = row[cell_number + 1]
           
           #puts "T:#{top}, B:#{bottom}, L:#{left}, R:#{right}"
-
+          
             if top == 0 
               #puts "***"
               new_image[row_number - 1][cell_number] = 1
@@ -54,10 +74,12 @@ class Image
             end
         end
       end
-     Image.new(new_image).output_image
     end
+    
+    Image.new(new_image).output_image
   end
 end
+
 #row1 = [0,1,0,1,0]
 #row2 = [1,0,1,0,1]
 #row3 = [0,1,0,1,0]
@@ -67,12 +89,12 @@ row1 = [0,0,0,0,0]
 row2 = [0,0,1,0,0]
 row3 = [0,1,0,1,0]
 row4 = [0,0,0,0,0]
-
+row5 = [1,1,0,0,1]
+row6 = [0,0,0,1,0]
 
 image = Image.new(
-  [row1, row2, row3, row4]
+  [row1, row2, row3, row4, row5, row6]
 )
 
 image.output_image
 image.blur
- 

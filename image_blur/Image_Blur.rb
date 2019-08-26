@@ -1,22 +1,42 @@
 class Image
   attr_accessor :image
 
+  puts "Outputting Image"
   def initialize(image)
     @image = image
   end
 
   def output_image
     @image.each do |a|
-      puts a.join("")
+      puts a.join(" ")
     end
   end 
 
-  def blur
-    #puts "Blur starts"
-    blur = []
-    last_row_number = @image.length() -1
-    new_image = @image.clone
+  def make_copy
+    
+    output = []
 
+    @image.each do |row|
+      row_copy = []
+
+      row.each do |cell|
+        row_copy.push(cell)
+      end
+
+      output.push(row_copy)
+    end
+
+    return output
+  end
+
+  def blur 
+    #puts "Blur starts"
+    blur = [] 
+   
+    last_row_number = @image.length() -1
+   
+    new_image = make_copy()
+    
     @image.each_with_index do |row, row_number|
       #puts "#{row_number} #{row}"
     
@@ -32,7 +52,7 @@ class Image
           right = row[cell_number + 1]
           
           #puts "T:#{top}, B:#{bottom}, L:#{left}, R:#{right}"
-
+          
             if top == 0 
               #puts "***"
               new_image[row_number - 1][cell_number] = 1
@@ -54,10 +74,12 @@ class Image
             end
         end
       end
-     Image.new(new_image).output_image
     end
+    
+    Image.new(new_image).output_image
   end
 end
+
 #row1 = [0,1,0,1,0]
 #row2 = [1,0,1,0,1]
 #row3 = [0,1,0,1,0]
@@ -75,4 +97,4 @@ image = Image.new(
 
 image.output_image
 image.blur
- 
+image.change

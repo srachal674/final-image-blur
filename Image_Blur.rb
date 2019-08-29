@@ -5,15 +5,14 @@ class Image
     @image = image
   end
 
-  def output_image
+  def output_image(message = "Outputting Image")
+    puts message
     @image.each do |a|
       puts a.join(" ")
     end
   end 
-
-  puts "Outputting Image"
+  
   def make_copy
-    puts "Outputting Image"
     output = []
 
     @image.each do |row|
@@ -29,8 +28,16 @@ class Image
     return output
   end
 
-  def blur 
-    #puts "Blur starts"
+  def blur (distance = 1)
+    #puts "Blur starts distance #{distance}"
+    distance.times do
+      blur_1()
+    end
+    output_image("After")
+  end
+
+  def blur_1
+    #puts "Blur by 1"
     blur = [] 
    
     last_row_number = @image.length() -1
@@ -66,6 +73,7 @@ class Image
             if left == 0
               #puts "%%%"
               new_image[row_number][cell_number - 1] = 1
+
             end
 
             if right == 0
@@ -75,8 +83,7 @@ class Image
         end
       end
     end
-    
-    Image.new(new_image).output_image
+    @image = new_image
   end
 end
 
@@ -85,16 +92,23 @@ end
 #row3 = [0,1,0,1,0]
 #row4 = [1,0,1,0,1]
 
-row1 = [0,0,0,0,0]
-row2 = [0,0,1,0,0]
-row3 = [0,1,0,1,0]
-row4 = [0,0,0,0,0]
-row5 = [1,1,0,0,1]
-row6 = [0,0,0,1,0]
+# row1 = [0,0,0,0,0]
+# row2 = [0,0,1,0,0]
+# row3 = [0,1,0,1,0]
+# row4 = [0,0,0,0,0]
+# row5 = [1,1,0,0,1]
+# row6 = [0,0,0,1,0]
+
+row1 = [0,0,0,0,0,0,0,0,0,0,0,0]
+row2 = [0,0,1,0,0,0,0,0,0,0,0,0]
+row3 = [0,1,0,1,0,0,0,0,0,1,0,0]
+row4 = [0,0,0,0,0,0,0,0,0,0,0,0]
+row5 = [1,1,0,0,1,0,0,0,0,0,0,0]
+row6 = [0,0,0,1,0,0,0,0,0,0,0,0]
 
 image = Image.new(
   [row1, row2, row3, row4, row5, row6]
 )
 
-image.output_image
-image.blur
+image.output_image("Before")
+image.blur(3)
